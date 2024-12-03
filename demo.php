@@ -1,44 +1,51 @@
 <?php
+$age = 18;
+$name = 'Blas';
 
-# inicializar sesion cURL; ch = cURL handle
-const API_URL = "https://whenisthenextmcufilm.com/api";
-$ch = curl_init(API_URL);
-//indicar que el resultado no se muestre en pantalla
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//ejhecutamos la peticion
-$result = curl_exec($ch);
-$data = json_decode($result, true);
-// cerramos conexion
-curl_close($ch);
-// vemos contenido obtenido
-//var_dump($data);
+$outputAge = match (true) {
+  $age < 2 => "Eres un bebe, $name",
+  $age < 10 => "Eres un niño, $name",
+  $age < 18 => "Eres un adolescente, $name",
+  $age == 18 => "Eres mayor de edad, $name",
+};
+
+$bestLanguages = ["PHP", "JavaScript", "Python"];
+$bestLanguages[3] = "Java";
+$bestLanguages[] = "TypeScript";
+
+$person = [
+  "name" => "San",
+  "age" => 31,
+  "isDev" => false,
+  "languages" => ["Español", "Valenciano"],
+];
+
+$person["name"] = "Sandra";
+$person["languages"][] =  "Ingles";
 
 ?>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>La próxima pelicula de Marvel</title>
-  <meta name="description" content="La próxima pelicula de Marvel">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css" />
-</head>
+<ul>
+  <?php foreach ($bestLanguages as $lang) : ?>
+    <li><?php echo $lang; ?></li>
+  <?php endforeach; ?>
+</ul>
+<ul>
+  <?php foreach ($bestLanguages as $key => $lang) : ?>
+    <li><?php echo $key . '-' . $lang; ?></li>
+  <?php endforeach; ?>
+</ul>
 
-<main>
-  <!--   <pre style="font-size: 8px; overflow: scroll; height: 250px;">
-    <?php var_dump($data); ?>
-  </pre> -->
-  <section>
-    <img src="<?php echo $data["poster_url"]; ?>" width="300" alt="Poster de <?= $data["title"]; ?>" style="border-radius: 16px" />
-  </section>
+<h2>
+  <?= $outputAge; ?>
+</h2>
+<h2>
+  <?= var_dump($person); ?>
+</h2>
 
-  <hgroup>
-    <h2><?= $data["title"]; ?> se estrena en <?= $data["days_until"]; ?> días</h2>
-    <h2>Fecha de estreno: <?= $data["release_date"]; ?></h2>
-    <h3>La siguente será: <?= $data["following_production"]["title"] ?></h3>
-  </hgroup>
-</main>
+<h1>
+  <?= 'Hola mundo'; ?>
+</h1>
 
 <style>
   :root {
@@ -46,24 +53,7 @@ curl_close($ch);
   }
 
   body {
-    display: flex;
-    place-content: center;
-  }
-
-  section {
     display: grid;
     place-content: center;
-    text-align: center;
-  }
-
-  hgroup {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
-
-  img {
-    margin: 0 auto;
   }
 </style>
